@@ -1,0 +1,292 @@
+/* ========================================================
+   ESTILOS GENERALES Y PALETA DE COLORES (TEMA CAFETERÍA)
+   ======================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #2b1e16; /* Café muy oscuro de fondo */
+    color: #3e2723;            /* Café tostado */
+    line-height: 1.5;
+    padding: 20px 15px 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Encabezado principal */
+.main-header {
+    text-align: center;
+    color: #f5ebe0;
+    margin-bottom: 25px;
+}
+
+.main-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.main-header .subtitle {
+    font-size: 14px;
+    color: #d7ccc8;
+    margin-top: 5px;
+}
+
+/* Contenedor y tarjeta del formulario */
+.form-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.device-card {
+    background: #fdfbf7; /* Crema suave */
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    border: 3px solid #4a3525;
+    width: 100%;
+    max-width: 500px;
+}
+
+.card-header {
+    text-align: center;
+    color: #4a3525;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d7ccc8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Campos del formulario */
+.field {
+    margin-bottom: 16px;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4e342e;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.required {
+    color: #b71c1c;
+    font-weight: bold;
+}
+
+.input-box {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #a1887f;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #4e342e;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-box:focus {
+    border-color: #4a3525;
+    box-shadow: 0 0 0 2px rgba(74, 53, 37, 0.2);
+}
+
+.textarea-box {
+    height: 70px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Grupos de opciones (Radio y Checkbox) */
+.options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 13px;
+    color: #4e342e;
+    margin-top: 6px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.option-item input[type="radio"],
+.option-item input[type="checkbox"] {
+    accent-color: #4a3525;
+    cursor: pointer;
+}
+
+/* Botones */
+.btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px 14px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, transform 0.1s;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: #4a3525; /* Café espresso */
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #3b2a1d;
+}
+
+.btn-secondary {
+    background-color: #8d6e63; /* Café medio */
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #795548;
+}
+
+/* Estilos de la pantalla de resumen (resumen.html) */
+.success-banner {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    color: #1b5e20;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.check-icon {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.summary-details {
+    background: #ffffff;
+    border: 1px solid #d7ccc8;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #efebe9;
+    font-size: 13px;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-row .label {
+    margin-bottom: 0;
+    color: #5d4037;
+    font-weight: 600;
+}
+
+.summary-row .value {
+    color: #2b1e16;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.summary-row .italic {
+    font-style: italic;
+    color: #6d4c41;
+}
+
+/* Pie de página */
+.footer {
+    text-align: center;
+    color: #bcaaa4;
+    font-size: 12px;
+    margin-top: 30px;
+}
+
+/* ========================================================
+   DISEÑO RESPONSIVO (TABLETS Y CELULARES)
+   ======================================================== */
+/* Para tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .device-card {
+        max-width: 440px;
+        padding: 20px;
+    }
+}
+
+/* Para celulares */
+@media (max-width: 480px) {
+    body {
+        padding: 15px 10px 25px;
+    }
+
+    .main-header h1 {
+        font-size: 20px;
+    }
+
+    .device-card {
+        padding: 15px;
+        border-width: 2px;
+    }
+
+    .options-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .summary-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .summary-row .value {
+        text-align: left;
+        max-width: 100%;
+    }
+}

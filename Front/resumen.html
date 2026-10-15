@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen de Pedido - Cafetería</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <h1> Cafetería Aroma & Sabor</h1>
+        <p class="subtitle">Confirmación y Recepción de Pedidos</p>
+    </header>
+
+    <main class="form-wrapper">
+        <div class="device-card">
+            <div class="card-header">
+                <h2>Resumen de Pedido</h2>
+            </div>
+
+            <div class="success-banner">
+                <span class="check-icon">✓</span>
+                <p><strong>¡Pedido recibido!</strong> Tu orden ha sido registrada exitosamente en el servidor.</p>
+            </div>
+
+            <!-- Detalle de la información recibida por parámetros -->
+            <div class="summary-details">
+                <div class="summary-row">
+                    <span class="label">Nombre del cliente:</span>
+                    <strong class="value" id="cliente">Cargando...</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Correo electrónico:</span>
+                    <span class="value" id="correo">Cargando...</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Producto seleccionado:</span>
+                    <span class="value" id="producto">Cargando...</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Cantidad:</span>
+                    <span class="value" id="cantidad">Cargando...</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Tamaño:</span>
+                    <span class="value" id="tamano">Cargando...</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">¿Para llevar?:</span>
+                    <span class="value" id="llevar">Cargando...</span>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Observaciones:</span>
+                    <span class="value italic" id="observaciones">Cargando...</span>
+                </div>
+            </div>
+
+            <!-- Botón para regresar al formulario -->
+            <div class="btn-group" style="margin-top: 25px;">
+                <a href="/" class="btn btn-primary" style="text-decoration: none; text-align: center; display: block;">Realizar otro pedido</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Práctica de Programación Web &copy; 2026 - Conexión Cliente y Servidor Node.js</p>
+    </footer>
+
+    <!-- Script encargado de leer los parámetros URL recibidos del servidor -->
+    <script src="js/script.js"></script>
+</body>
+</html>
