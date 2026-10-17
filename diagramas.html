@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas del Sistema - Cafetería MVC con MySQL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            color: #2b1e16;
+            padding: 30px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #4a3525;
+        }
+        h1 {
+            color: #4a3525;
+            margin-bottom: 8px;
+        }
+        p.subtitle {
+            color: #6d4c41;
+            font-size: 15px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 6px solid #4a3525;
+        }
+        h2 {
+            color: #3e2723;
+            margin-top: 0;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            font-size: 19px;
+        }
+        .desc {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ebebeb;
+            overflow-x: auto;
+        }
+    </style>
+    <!-- Librería Mermaid para renderizado automático -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ Sistema Cafetería Aroma & Sabor</h1>
+            <p class="subtitle">Diagramas de Arquitectura y Diseño - Patrón MVC, Parámetros y Base de Datos MySQL</p>
+        </header>
+
+        <!-- 1. DIAGRAMA DE FLUJO -->
+        <section class="card">
+            <h2>1. Diagrama de Flujo del Sistema</h2>
+            <p class="desc">Muestra la secuencia lógica desde la captura de datos, paso de parámetros a la segunda página, confirmación del usuario e inserción del registro en la base de datos MySQL.</p>
+            <div class="mermaid">
+flowchart TD
+    A([INICIO]) --> B[Mostrar formulario index.html]
+    B --> C[Ingresar nombre del cliente]
+    C --> D[Ingresar correo electrónico]
+    D --> E[Seleccionar producto de la lista]
+    E --> F[Ingresar cantidad de productos]
+    F --> G[Seleccionar tamaño de bebida]
+    G --> H[Seleccionar si es para llevar]
+    H --> I[Ingresar observaciones]
+
+    I --> J{¿Datos válidos?}
+    J -->|No| K[Mostrar alerta y corregir campos]
+    K --> B
+
+    J -->|Sí| L[Enviar formulario POST hacia /pedido]
+    L --> M[Controlador procesa y redirige con parámetros URL]
+    M --> N[Cargar página resumen.html con parámetros]
+    N --> O[script.js lee URLSearchParams y muestra datos]
+    O --> P{¿Usuario confirma el pedido?}
+
+    P -->|Modificar| B
+    P -->|Confirmar| Q[Petición POST a /confirmar-pedido]
+
+    Q --> R[Controlador recibe petición y llama al Modelo]
+    R --> S[(Ejecutar INSERT en MySQL XAMPP)]
+    S --> T{¿Inserción exitosa?}
+
+    T -->|No| U[Mostrar error de conexión en resumen.html]
+    T -->|Sí| V[Devolver ID de pedido generado]
+    V --> W[Mostrar mensaje de éxito con número de Folio]
+    W --> X([FIN])
+            </div>
+        </section>
+
+        <!-- 2. DIAGRAMA DE CLASES -->
+        <section class="card">
+            <h2>2. Diagrama de Clases (Patrón MVC)</h2>
+            <p class="desc">Representa la estructura modular de la aplicación dividida en Vista (Front), Controlador y Modelo (Back), además de la capa de conexión a la base de datos.</p>
+            <div class="mermaid">
+classDiagram
+    class VistaFormulario {
+        +HTMLFormElement formPedido
+        +validarFormulario()
+        +enviarDatos()
+    }
+
+    class VistaResumen {
+        +URLSearchParams parametros
+        +cargarParametros()
+        +confirmarPedido()
+        +mostrarExito(id)
+    }
+
+    class PedidosController {
+        +procesarPedido(req, res)
+        +confirmarPedido(req, res)
+        +listarPedidos(req, res)
+    }
+
+    class PedidoModel {
+        +registrarPedido(cliente, correo, producto, cantidad, tamano, llevar, observaciones) Promise~int~
+        +obtenerPedidos() Promise~Array~
+    }
+
+    class DatabaseConfig {
+        +Pool pool
+        +inicializarBD()
+        +query(sql, params)
+    }
+
+    class Pedido {
+        +int id
+        +string cliente
+        +string correo
+        +string producto
+        +int cantidad
+        +string tamano
+        +string llevar
+        +string observaciones
+        +datetime fecha_creacion
+    }
+
+    VistaFormulario ..> PedidosController : Envía datos POST /pedido
+    PedidosController ..> VistaResumen : Redirige con parámetros URL
+    VistaResumen ..> PedidosController : Envía POST /confirmar-pedido
+    PedidosController --> PedidoModel : Invoca registrarPedido()
+    PedidoModel --> DatabaseConfig : Ejecuta consultas SQL
+    PedidoModel ..> Pedido : Instancia / Almacena
+            </div>
+        </section>
+
+        <!-- 3. DIAGRAMA ENTIDAD - RELACIÓN (ER) -->
+        <section class="card">
+            <h2>3. Diagrama Entidad - Relación (Base de Datos)</h2>
+            <p class="desc">Estructura de la tabla <code>pedidos</code> en la base de datos MySQL (XAMPP).</p>
+            <div class="mermaid">
+erDiagram
+    PEDIDOS {
+        int id PK "Clave primaria auto-incremental"
+        varchar cliente "Nombre del cliente NOT NULL"
+        varchar correo "Correo electrónico"
+        varchar producto "Producto seleccionado NOT NULL"
+        int cantidad "Cantidad mínima 1 NOT NULL"
+        varchar tamano "Chico, Mediano o Grande"
+        varchar llevar "Sí o No"
+        text observaciones "Notas especiales"
+        timestamp fecha_creacion "Fecha y hora del registro"
+    }
+            </div>
+        </section>
+
+        <!-- 4. DIAGRAMA DE CASOS DE USO -->
+        <section class="card">
+            <h2>4. Diagrama de Casos de Uso</h2>
+            <p class="desc">Interacción entre el Actor (Cliente) y los servicios del sistema web y la base de datos.</p>
+            <div class="mermaid">
+flowchart LR
+    subgraph Actores
+        Cliente((Cliente / Usuario))
+        BD[("Servidor MySQL<br>(XAMPP)")]
+    end
+
+    subgraph CasosDeUso ["Casos de Uso del Sistema"]
+        UC1(["UC1: Llenar formulario de pedido"])
+        UC2(["UC2: Enviar datos vía POST"])
+        UC3(["UC3: Visualizar resumen por parámetros"])
+        UC4(["UC4: Modificar datos de pedido"])
+        UC5(["UC5: Confirmar y guardar pedido"])
+        UC6(["UC6: Insertar registro en Base de Datos"])
+        UC7(["UC7: Consultar confirmación con Folio"])
+    end
+
+    Cliente --> UC1
+    UC1 --> UC2
+    UC2 --> UC3
+    UC3 --> UC4
+    UC3 --> UC5
+    UC5 -.->|«include»| UC6
+    UC6 --> BD
+    UC6 -.->|«include»| UC7
+    UC7 --> Cliente
+            </div>
+        </section>
+
+        <!-- 5. MAPA DE NAVEGACIÓN -->
+        <section class="card">
+            <h2>5. Mapa de Navegación del Sistema</h2>
+            <p class="desc">Ruta de navegación y comunicación entre las vistas del Frontend, el servidor Express y el motor MySQL.</p>
+            <div class="mermaid">
+flowchart LR
+    subgraph FRONTEND ["FRONT (Vistas)"]
+        V1["1. index.html<br>(Formulario de Pedidos)"]
+        V2["2. resumen.html<br>(Recepción por Parámetros)"]
+        V3["3. resumen.html<br>(Estado Confirmado con Folio)"]
+    end
+
+    subgraph BACKEND ["BACK (Node.js & Express)"]
+        R1["Ruta POST /pedido<br>(pedidosRoutes.js)"]
+        C1["Controlador<br>(pedidosController.js)"]
+        R2["Ruta POST /confirmar-pedido<br>(pedidosRoutes.js)"]
+        M1["Modelo<br>(pedidoModel.js)"]
+    end
+
+    subgraph DATABASE ["BASE DE DATOS (XAMPP)"]
+        DB[("MySQL Database<br>cafeteria.pedidos")]
+    end
+
+    V1 -- "1. Enviar formulario (POST)" --> R1
+    R1 --> C1
+    C1 -- "2. Redirección con parámetros URL:<br>?cliente=...&producto=..." --> V2
+    V2 -- "3. Regresar / Modificar" --> V1
+    V2 -- "4. Clic en Confirmar Pedido (POST)" --> R2
+    R2 --> C1
+    C1 --> M1
+    M1 -- "5. INSERT INTO pedidos..." --> DB
+    DB -- "6. Retorna insertId" --> M1
+    M1 --> C1
+    C1 -- "7. Respuesta JSON {success: true, id: #}" --> V3
+    V3 -- "8. Realizar nuevo pedido" --> V1
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

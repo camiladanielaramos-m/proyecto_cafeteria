@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumen de Pedido - Cafetería</title>
+    <title>Resumen y Confirmación de Pedido - Cafetería</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
 
     <header class="main-header">
-        <h1> Cafetería Aroma & Sabor</h1>
-        <p class="subtitle">Confirmación y Recepción de Pedidos</p>
+        <h1>☕ Cafetería Aroma & Sabor</h1>
+        <p class="subtitle">Paso 2: Confirmación y Registro en Base de Datos</p>
     </header>
 
     <main class="form-wrapper">
@@ -19,9 +19,25 @@
                 <h2>Resumen de Pedido</h2>
             </div>
 
-            <div class="success-banner">
+            <!-- Estado inicial: Información recibida por parámetros -->
+            <div class="info-banner" id="bannerInfo">
+                <span class="info-icon">📋</span>
+                <p><strong>Información recibida por parámetros:</strong> Verifica que los datos sean correctos antes de confirmar el registro en la base de datos.</p>
+            </div>
+
+            <!-- Banner de confirmación en base de datos (inicialmente oculto) -->
+            <div class="success-banner" id="bannerExito" style="display: none;">
                 <span class="check-icon">✓</span>
-                <p><strong>¡Pedido recibido!</strong> Tu orden ha sido registrada exitosamente en el servidor.</p>
+                <div>
+                    <p><strong>¡Pedido confirmado y registrado en MySQL!</strong></p>
+                    <p style="font-size: 13px; margin-top: 4px;">ID / Folio asignado en base de datos: <strong id="folioPedido" style="color: #1b5e20; font-size: 15px;">#0</strong></p>
+                </div>
+            </div>
+
+            <!-- Banner de error si la base de datos no está activa (inicialmente oculto) -->
+            <div class="error-banner" id="bannerError" style="display: none;">
+                <span class="error-icon">⚠️</span>
+                <div id="mensajeError">Error al conectar con la base de datos. Verifica que el módulo MySQL esté activo en XAMPP.</div>
             </div>
 
             <!-- Detalle de la información recibida por parámetros -->
@@ -62,18 +78,31 @@
                 </div>
             </div>
 
-            <!-- Botón para regresar al formulario -->
-            <div class="btn-group" style="margin-top: 25px;">
-                <a href="/" class="btn btn-primary" style="text-decoration: none; text-align: center; display: block;">Realizar otro pedido</a>
+            <!-- Acciones de confirmación y guardado en Base de Datos -->
+            <div class="btn-group" id="grupoAccionesConfirmar" style="margin-top: 25px;">
+                <button type="button" id="btnConfirmar" class="btn btn-primary" style="flex: 2;">
+                    💾 Confirmar y Guardar Pedido
+                </button>
+                <a href="/" class="btn btn-secondary" style="flex: 1; text-align: center; text-decoration: none;">
+                    ✏️ Modificar
+                </a>
             </div>
+
+            <!-- Acción post-confirmación (aparece al guardar con éxito) -->
+            <div class="btn-group" id="grupoAccionesFinal" style="margin-top: 20px; display: none;">
+                <a href="/" class="btn btn-primary" style="text-decoration: none; text-align: center; display: block; width: 100%;">
+                    ☕ Realizar un nuevo pedido
+                </a>
+            </div>
+
         </div>
     </main>
 
     <footer class="footer">
-        <p>Práctica de Programación Web &copy; 2026 - Conexión Cliente y Servidor Node.js</p>
+        <p>Práctica de Programación Web &copy; 2026 - Conexión Cliente, Servidor Node.js y MySQL (XAMPP) con MVC</p>
     </footer>
 
-    <!-- Script encargado de leer los parámetros URL recibidos del servidor -->
+    <!-- Script encargado de leer los parámetros URL y procesar la confirmación -->
     <script src="js/script.js"></script>
 </body>
 </html>
